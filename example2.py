@@ -4,9 +4,6 @@ class Legend():
     skills = {"default_skill": 10}
     alias = ["Default Alias"]
 
-    def __init__(self, *args):
-        self._health = self.health 
-
     def _get_name(self):
         print(f"This Legend's name is {self._name}")
         return self._name
