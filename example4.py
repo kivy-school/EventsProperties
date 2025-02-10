@@ -30,8 +30,10 @@ brick_frog = KivyLegend(
     )
 
 kv = """
-Button:
-    text: "Hello World"
+BoxLayout:
+    orientation: "horizontal"
+    BoxLayout:
+        text: "Hello World"
 """
 
 class MainApp(App):
