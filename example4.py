@@ -26,7 +26,7 @@ ColoredBox:
     orientation: "vertical"
     bg_color: 0,0,0,1
     LabelB:
-        text: root.bat_brick_ref.name
+        text: "Legend: \\n" + root.bat_brick_ref.name
         on_release: 
             print("What is root?", root, root.bat_brick_ref.name)
     LabelB:
@@ -72,7 +72,6 @@ class MainApp(App):
     def build(self):
         Window.always_on_top = True
         Window.size = (300,400)
-        root = Builder.load_string(kv)
-        return root
+        return Builder.load_string(kv)
 
 app = MainApp().run()
