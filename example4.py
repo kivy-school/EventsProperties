@@ -22,10 +22,9 @@ bat_brick = KivyLegend(
     )
 
 kv = """
-
 ColoredBox:
     orientation: "vertical"
-    bg_color: 1,0,0,0
+    bg_color: 0,0,0,1
     LabelB:
         text: root.bat_brick_ref.name
         on_release: 
@@ -34,20 +33,25 @@ ColoredBox:
         text: "Bat Brick gains health!"
         on_release: 
             print("What is root1?", root,)
-            root.bat_brick_ref.name = "testor"
+            root.bat_brick_ref.health = root.bat_brick_ref.health + 10
     LabelB:
-        text: "bat_brick"
+        text: "Bat Brick changes name!"
+        on_release: 
+            print("What is root1?", root,)
+            root.bat_brick_ref.name = "Funny Man that Laughs"
+    LabelB:
+        text: root.bat_brick_ref.name + " health: " + str(root.bat_brick_ref.health)
         on_release: 
             print("What is root2?", root, root.bat_brick_ref.name)
    
-#<ColoredBox@BoxLayout>:
-#	bg_color: 1,1,1,1
-#	canvas.before: 
-#		Color:
-#			rgba: self.bg_color
-#		Rectangle:
-#			pos: self.pos
-#			size: self.size
+<ColoredBox@BoxLayout>:
+	bg_color: 1,1,1,1
+	canvas.before: 
+		Color:
+			rgba: self.bg_color
+		Rectangle:
+			pos: self.pos
+			size: self.size
 
 <LabelB@Button>:
 	background_normal: ''
@@ -57,22 +61,18 @@ ColoredBox:
     background_color: 0, 0, 0, 0
 """
 
+#imports should be at the top but there are here for explanations
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
 
 class ColoredBox(BoxLayout):
-    bat_brick_ref = ObjectProperty()
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.bat_brick_ref = bat_brick
-
+    bat_brick_ref = ObjectProperty(bat_brick) #initialize here, not on init!
 
 class MainApp(App):
     def build(self):
         Window.always_on_top = True
         Window.size = (300,400)
         root = Builder.load_string(kv)
-        # root.bat_brick_ref = bat_brick
         return root
 
 app = MainApp().run()
