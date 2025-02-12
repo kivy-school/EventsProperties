@@ -82,6 +82,10 @@ ColoredBox:
         text: root.bat_brick_ref.name + " stops time!"
         on_release: 
             time.sleep(10000)
+    LabelB:
+        text: "breakpoint"
+        on_release: 
+            breakpoint()
    
 <ColoredBox@BoxLayout>:
 	bg_color: 1,1,1,1
