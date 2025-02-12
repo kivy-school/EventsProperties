@@ -43,13 +43,45 @@ ColoredBox:
     background_color: 0, 0, 0, 0
 """
 
+def custom_on_release_method(*args, **kwargs):
+    print("custom on_release method!", *args, **kwargs)
+    print("\n")
+
+def custom_on_touch_move_method(*args, **kwargs):
+    print("custom on_touch_move method!", *args, **kwargs)
+    print("\n")
+
 class LabelB(Button):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.bind(on_press=self.custom_press_method)
+        self.bind(on_release=custom_on_release_method)
+        #touch events print out a lot, so leave them commented out
+        # self.bind(on_touch_down=self.custom_on_touch_down_method)
+        # self.bind(on_touch_move=custom_on_touch_move_method)
+        # self.bind(on_touch_up=self.custom_on_touch_up_method)
+
+    def on_press(self, *args, **kwargs):
+        print("on_press original!", self, *args, **kwargs)
 
     def custom_press_method(self, *args, **kwargs):
         print("custom press method!", self, *args, **kwargs)
+        print("\n")
+
+    def on_touch_down(self, *args, **kwargs):
+        print("on_touch_down original!", self, *args, **kwargs, )
+        #you need to do super to let touch events propagate: https://kivy.org/doc/stable/api-kivy.uix.widget.html#widget-touch-event-bubbling 
+        return super(LabelB, self).on_touch_down(args[0]) 
+
+    def custom_on_touch_down_method(self, *args, **kwargs):
+        print("custom on_touch_down method!", self, *args, **kwargs)
+        print("\n")
+
+    def on_touch_up(self, *args, **kwargs):
+        print("on_touch_up original!", self, *args, **kwargs)
+
+    def custom_on_touch_up_method(self, *args, **kwargs):
+        print("custom on_touch_up method!", self, *args, **kwargs)
         print("\n")
 
 class MainApp(App):
