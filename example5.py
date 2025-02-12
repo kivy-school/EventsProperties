@@ -89,6 +89,7 @@ class MainApp(App):
         root_widget = Builder.load_string(kv)
         root_widget.bat_brick_ref.bind(health=custom_global_callback)
         root_widget.bat_brick_ref.bind(health=KivyLegend.custom_method_callback)
+        # KivyLegend.health = "3.14"
         return root_widget
 
 app = MainApp().run()
