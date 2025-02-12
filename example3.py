@@ -11,5 +11,4 @@ class KivyLegend(EventDispatcher):
     skills = DictProperty({"default_skill": 10})
     alias = ListProperty(["Default Alias"])
 
-
 breakpoint()

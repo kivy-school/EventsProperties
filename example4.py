@@ -28,21 +28,20 @@ ColoredBox:
     LabelB:
         text: "Legend: \\n" + root.bat_brick_ref.name
         on_release: 
-            print("What is root?", root, root.bat_brick_ref.name)
-    LabelB:
-        text: "Bat Brick gains health!"
-        on_release: 
-            print("What is root1?", root,)
-            root.bat_brick_ref.health = root.bat_brick_ref.health + 10
-    LabelB:
-        text: "Bat Brick changes name!"
-        on_release: 
-            print("What is root1?", root,)
-            root.bat_brick_ref.name = "Funny Man that Laughs"
+            print("What is root widget and bat brick's name?", root, root.bat_brick_ref.name)
     LabelB:
         text: root.bat_brick_ref.name + " health: " + str(root.bat_brick_ref.health)
         on_release: 
-            print("What is root2?", root, root.bat_brick_ref.name)
+            print("What is bat_brick's health?", root, root.bat_brick_ref.health)
+    LabelB:
+        text: "Bat Brick gains health!"
+        on_release: 
+            root.bat_brick_ref.health = root.bat_brick_ref.health + 10
+            print("app and accessing bird brick", app.get_running_app(), app.get_running_app().bird_brick_ref.name)
+    LabelB:
+        text: "Bat Brick changes name!"
+        on_release: 
+            root.bat_brick_ref.name = "Funny Man that Laughs"
    
 <ColoredBox@BoxLayout>:
 	bg_color: 1,1,1,1
@@ -69,6 +68,7 @@ class ColoredBox(BoxLayout):
     bat_brick_ref = ObjectProperty(bat_brick) #initialize here, not on init!
 
 class MainApp(App):
+    bird_brick_ref = bat_brick
     def build(self):
         Window.always_on_top = True
         Window.size = (300,400)
