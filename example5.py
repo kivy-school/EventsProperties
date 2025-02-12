@@ -14,6 +14,15 @@ class KivyLegend(EventDispatcher):
     skills = DictProperty({"default_skill": 10})
     alias = ListProperty(["Default Alias"])
 
+    def on_health(self, *args):
+        print("Kivy legend health changed tracked by on_health!", self, *args)
+    
+    def custom_method_callback(self, *args):
+        print("Using custom method callback to view changes to a Kivy property", self, *args)
+
+def custom_global_callback(*args):
+    print("Using custom global callback to view changes to a Kivy property", *args)
+
 bat_brick = KivyLegend(
     name = "Bat Brick", 
     health = 300,
@@ -37,7 +46,7 @@ ColoredBox:
         text: "Bat Brick gains health!"
         on_release: 
             root.bat_brick_ref.health = root.bat_brick_ref.health + 10
-            print("app and accessing bird brick", app.get_running_app(), app.get_running_app().bird_brick_ref.name)
+            #root.bat_brick_ref.health = root.bat_brick_ref.health
     LabelB:
         text: "Bat Brick changes name!"
         on_release: 
@@ -73,9 +82,13 @@ class ColoredBox(BoxLayout):
 
 class MainApp(App):
     bird_brick_ref = bat_brick
+    
     def build(self):
         Window.always_on_top = True
         Window.size = (300,400)
-        return Builder.load_string(kv)
+        root_widget = Builder.load_string(kv)
+        root_widget.bat_brick_ref.bind(health=custom_global_callback)
+        root_widget.bat_brick_ref.bind(health=KivyLegend.custom_method_callback)
+        return root_widget
 
 app = MainApp().run()
