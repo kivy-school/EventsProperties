@@ -60,6 +60,12 @@ class LabelB(Button):
         # self.bind(on_touch_down=self.custom_on_touch_down_method)
         # self.bind(on_touch_move=custom_on_touch_move_method)
         # self.bind(on_touch_up=self.custom_on_touch_up_method)
+        # If a callback has already been bound to a given event or property, it won’t be added again. (give example, try to make on press bound multiple times)
+        # https://kivy.org/doc/stable/api-kivy.event.html#kivy.event.EventDispatcher.bind
+        # self.bind(on_release=custom_on_release_method)
+        # self.bind(on_release=custom_on_release_method)
+        # self.bind(on_release=custom_on_release_method)
+        # self.bind(on_release=custom_on_release_method)
 
     def on_press(self, *args, **kwargs):
         print("on_press original!", self, *args, **kwargs)
