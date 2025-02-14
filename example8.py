@@ -43,6 +43,13 @@ bat_brick = KivyLegend(
     alias = ["Brutal Wayze"],
     )
 
+brick_frog = KivyLegend(
+    name = "Brick Frog", 
+    health = 500,
+    skills = {"Brick_throw": 80},
+    alias = ["Rain Frog"],
+    )
+
 kv = """
 #:import time time
 ColoredBox:
@@ -73,9 +80,15 @@ ColoredBox:
             # root.bat_brick_ref.unbind(health=KivyLegend.custom_method_callback)
 
     LabelB:
+        text: "Change to new Kivy Legend!"
+        on_release: 
+            root.change_kivy_legend()
+    
+    LabelB:
         text: "What are the health observers?"
         on_release: 
-            print("what is observing the health property?", ', '.join([x.__name__ for x in root.bat_brick_ref.get_property_observers('health')]))
+            print("what is observing the health property?", ', '.join([x.__name__ for x in root.bat_brick_ref.get_property_observers('health') if hasattr(x, "__name__")]))
+            # breakpoint()
 
    
 <ColoredBox@BoxLayout>:
@@ -100,10 +113,16 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 
 class ColoredBox(BoxLayout):
-    bat_brick_ref = ObjectProperty(bat_brick) #initialize here, not on init!
+    # bat_brick_ref = ObjectProperty(bat_brick) 
+    bat_brick_ref = ObjectProperty(bat_brick, rebind=True) 
 
     def unbinding_annoying_function(self, *args):
         self.bat_brick_ref.unbind(health=KivyLegend.custom_method_callback)
+    
+    def change_kivy_legend(self, *args):
+        print("what are tools we can use?", self, *args)
+        self.bat_brick_ref = brick_frog
+        print("what is self.bat_brick_ref VS self.bat_brick_ref.name?", self.bat_brick_ref.name)
     
 class MainApp(App):
     bird_brick_ref = bat_brick
