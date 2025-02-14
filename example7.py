@@ -31,8 +31,15 @@ class KivyLegend(EventDispatcher):
         self.health = new_identity[0]
         self.exposed_alias = [new_identity[1]]
         # self.exposed_alias = new_identity[1]
+        # return True
     
     legend_vulnerability = AliasProperty(legend_vulnerability_getter,legend_vulnerability_setter,bind=['health', 'exposed_alias'])
+    # legend_vulnerability = AliasProperty(legend_vulnerability_getter,legend_vulnerability_setter,bind=['health', 'exposed_alias'], cache=True)
+
+    def legend_display_getter(self, *args):
+        return f"{self.name} {self.health}"
+
+    legend_display = AliasProperty(legend_display_getter,None,bind=['name', 'health'])
     
     def on_health(self, *args):
         # print("Kivy legend health changed tracked by on_health!", self, *args)
@@ -53,6 +60,9 @@ class KivyLegend(EventDispatcher):
     def skills_checking(self, *args):
         # print("Kivy legend skill observed by skills_checking!", self, *args)
         pass
+
+    def legend_vulnerability_checking(self, *args):
+        print("Kivy legend vulnerability callback dispatched!", self, *args)
 
 def custom_global_callback(*args):
     print("Using custom global callback to view changes to a Kivy property", *args)
@@ -102,10 +112,18 @@ ColoredBox:
         on_release: 
             print("what is legend vulnerability", root.bat_brick_ref.legend_vulnerability)
             root.bat_brick_ref.legend_vulnerability = ("450", "Richard Richson")
+    
     LabelB:
-        text: "health observers"
+        text: "read only attribute: " + root.bat_brick_ref.legend_display
+    LabelB:
+        text: "setting a read only attribute! (will crash)"
         on_release: 
-            print("what is observing the health property?", ', '.join([x.__name__ for x in root.bat_brick_ref.get_property_observers('health')]))
+            root.bat_brick_ref.legend_display = "Brick Frog 9000"
+
+    # LabelB:
+    #     text: "health observers"
+    #     on_release: 
+    #         print("what is observing the health property?", ', '.join([x.__name__ for x in root.bat_brick_ref.get_property_observers('health')]))
 
    
 <ColoredBox@BoxLayout>:
@@ -142,6 +160,7 @@ class MainApp(App):
         # root_widget.bat_brick_ref.bind(health=custom_global_callback)
         # root_widget.bat_brick_ref.bind(health=KivyLegend.custom_method_callback)
         root_widget.bat_brick_ref.bind(skills=KivyLegend.skills_checking)
+        root_widget.bat_brick_ref.bind(legend_vulnerability=KivyLegend.legend_vulnerability_checking)
         return root_widget
 
 app = MainApp().run()
